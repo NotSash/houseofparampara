@@ -1,6 +1,7 @@
 import Image from "next/image"
-import { Reveal, StaggerGroup, StaggerItem } from "@/components/reveal"
+import { Reveal } from "@/components/reveal"
 import { SectionEyebrow } from "@/components/section-eyebrow"
+import { SwipeRow, SwipeItem } from "@/components/swipe-row"
 
 const PILLARS = [
   {
@@ -31,7 +32,7 @@ const PILLARS = [
 
 export function Pillars() {
   return (
-    <section id="why" className="relative bg-secondary/40 py-24 sm:py-32">
+    <section id="why" className="relative bg-secondary/40 py-16 sm:py-28">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <SectionEyebrow>Why Parampara</SectionEyebrow>
         <Reveal delay={0.05}>
@@ -40,27 +41,32 @@ export function Pillars() {
           </h2>
         </Reveal>
 
-        <StaggerGroup className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <SwipeRow
+          count={PILLARS.length}
+          gridClassName="grid-cols-2 lg:grid-cols-4"
+          className="mt-12 sm:mt-14"
+        >
           {PILLARS.map((p) => (
-            <StaggerItem key={p.title}>
+            <SwipeItem key={p.title}>
               <article className="group h-full overflow-hidden rounded-3xl border border-border bg-card shadow-warm-sm transition-all duration-500 hover:-translate-y-1.5 hover:shadow-warm">
                 <div className="relative aspect-[4/3] overflow-hidden">
                   <Image
                     src={p.image || "/placeholder.svg"}
                     alt={p.alt}
                     fill
+                    sizes="(min-width: 1024px) 25vw, 80vw"
                     className="object-cover transition-transform duration-700 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-charcoal/40 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-charcoal/50 to-transparent" />
                 </div>
                 <div className="p-6">
                   <h3 className="font-serif text-xl text-foreground">{p.title}</h3>
                   <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{p.body}</p>
                 </div>
               </article>
-            </StaggerItem>
+            </SwipeItem>
           ))}
-        </StaggerGroup>
+        </SwipeRow>
       </div>
     </section>
   )

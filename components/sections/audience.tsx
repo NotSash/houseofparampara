@@ -11,7 +11,7 @@ const AUDIENCE = [
 
 export function Audience() {
   return (
-    <section id="who" className="scroll-mt-24 py-20 md:py-28">
+    <section id="who" className="scroll-mt-24 py-16 md:py-28">
       <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 lg:grid-cols-2 lg:gap-16">
         <Reveal className="order-2 lg:order-1">
           <SectionEyebrow>Who It&apos;s For</SectionEyebrow>

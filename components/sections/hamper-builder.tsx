@@ -72,7 +72,7 @@ export function HamperBuilder() {
   }, [activeCollection, activeSub, selectedItems, total])
 
   return (
-    <section id="builder" className="relative scroll-mt-24 overflow-hidden py-20 md:py-28">
+    <section id="builder" className="relative scroll-mt-24 overflow-hidden py-16 md:py-28">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_50%_at_50%_0%,color-mix(in_oklch,var(--color-primary)_8%,transparent),transparent)]" />
       <div className="relative mx-auto max-w-6xl px-5">
         <Reveal className="mx-auto max-w-2xl text-center">
@@ -204,6 +204,32 @@ export function HamperBuilder() {
                 </ul>
               </motion.div>
             </AnimatePresence>
+
+            {/* Mobile-only sticky quick checkout bar */}
+            <div className="sticky bottom-3 z-30 mt-6 lg:hidden">
+              <div className="flex items-center gap-3 rounded-2xl border border-border bg-card/95 p-3 pl-4 shadow-warm backdrop-blur-md">
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-xs text-muted-foreground">
+                    {selectedItems.length} item{selectedItems.length === 1 ? "" : "s"} · {activeSub.name}
+                  </p>
+                  <p className="font-serif text-xl leading-none tabular-nums text-foreground">
+                    {formatPrice(total)}
+                  </p>
+                </div>
+                <a
+                  href={waLink(checkoutMessage)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={cn(
+                    "flex shrink-0 items-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-medium text-primary-foreground transition-transform active:scale-95",
+                    selectedItems.length === 0 && "pointer-events-none opacity-50",
+                  )}
+                >
+                  <WhatsAppIcon className="h-4 w-4" />
+                  Order
+                </a>
+              </div>
+            </div>
           </div>
 
           {/* Right: sticky summary */}

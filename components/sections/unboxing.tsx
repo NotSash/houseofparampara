@@ -1,6 +1,7 @@
 import Image from "next/image"
 import { SectionEyebrow } from "@/components/section-eyebrow"
 import { Reveal } from "@/components/reveal"
+import { SwipeRow, SwipeItem } from "@/components/swipe-row"
 
 const PACKAGES = [
   {
@@ -25,11 +26,11 @@ const PACKAGES = [
 
 export function Unboxing() {
   return (
-    <section id="unboxing" className="scroll-mt-24 bg-secondary/40 py-20 md:py-28">
+    <section id="unboxing" className="scroll-mt-24 bg-secondary/40 py-16 md:py-28">
       <div className="mx-auto max-w-6xl px-5">
         <Reveal className="mx-auto max-w-2xl text-center">
           <SectionEyebrow>The Unboxing</SectionEyebrow>
-          <h2 className="mt-4 font-serif text-4xl leading-tight text-balance md:text-5xl">
+          <h2 className="mt-4 font-serif text-3xl leading-tight text-balance sm:text-4xl md:text-5xl">
             The wrapping is part of the memory
           </h2>
           <p className="mt-4 text-pretty leading-relaxed text-muted-foreground">
@@ -38,16 +39,16 @@ export function Unboxing() {
           </p>
         </Reveal>
 
-        <div className="mt-12 grid gap-6 md:grid-cols-3">
-          {PACKAGES.map((p, i) => (
-            <Reveal key={p.name} delay={i * 0.08}>
-              <article className="group h-full overflow-hidden rounded-2xl border border-border bg-card">
+        <SwipeRow count={PACKAGES.length} gridClassName="grid-cols-3" className="mt-12">
+          {PACKAGES.map((p) => (
+            <SwipeItem key={p.name}>
+              <article className="group h-full overflow-hidden rounded-2xl border border-border bg-card shadow-warm-sm transition-all duration-500 hover:-translate-y-1.5 hover:shadow-warm">
                 <div className="relative aspect-[4/3] overflow-hidden">
                   <Image
                     src={p.image || "/placeholder.svg"}
                     alt={p.alt}
                     fill
-                    sizes="(min-width: 768px) 33vw, 100vw"
+                    sizes="(min-width: 768px) 33vw, 80vw"
                     className="object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                 </div>
@@ -58,9 +59,9 @@ export function Unboxing() {
                   </p>
                 </div>
               </article>
-            </Reveal>
+            </SwipeItem>
           ))}
-        </div>
+        </SwipeRow>
       </div>
     </section>
   )

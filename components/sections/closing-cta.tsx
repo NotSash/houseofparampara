@@ -6,7 +6,7 @@ import { waLink, GENERIC_WA_MESSAGE } from "@/lib/constants"
 
 export function ClosingCta() {
   return (
-    <section id="contact" className="relative scroll-mt-24 overflow-hidden bg-primary py-24 text-primary-foreground md:py-32">
+    <section id="contact" className="relative scroll-mt-24 overflow-hidden bg-primary py-20 text-primary-foreground md:py-32">
       <div className="pointer-events-none absolute inset-0 opacity-[0.08]">
         <Image src="/images/hero.png" alt="" fill className="object-cover" />
       </div>

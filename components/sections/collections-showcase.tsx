@@ -1,12 +1,13 @@
 import Image from "next/image"
 import { ArrowRight } from "lucide-react"
 import { collections } from "@/lib/data"
-import { Reveal, StaggerGroup, StaggerItem } from "@/components/reveal"
+import { Reveal } from "@/components/reveal"
 import { SectionEyebrow, SealDivider } from "@/components/section-eyebrow"
+import { SwipeRow, SwipeItem } from "@/components/swipe-row"
 
 export function CollectionsShowcase() {
   return (
-    <section id="collections" className="paper-grain relative py-24 sm:py-32">
+    <section id="collections" className="paper-grain relative py-16 sm:py-28">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <SectionEyebrow>The Collections</SectionEyebrow>
         <Reveal delay={0.05}>
@@ -16,33 +17,39 @@ export function CollectionsShowcase() {
         </Reveal>
         <Reveal delay={0.1}>
           <p className="mx-auto mt-5 max-w-xl text-pretty text-center leading-relaxed text-muted-foreground">
-            Each collection holds its own mood and memory. Explore them, then build your own hamper — choosing only
+            Each collection holds its own mood and memory. Swipe through, then build your own hamper — choosing only
             the pieces that speak to you.
           </p>
         </Reveal>
 
-        <StaggerGroup className="mt-16 flex flex-col gap-6">
+        <SwipeRow
+          count={collections.length}
+          gridClassName="grid-cols-2 lg:grid-cols-3"
+          className="mt-12 sm:mt-14"
+        >
           {collections.map((c, i) => (
-            <StaggerItem key={c.id}>
-              <article
-                className={`group grid items-center gap-0 overflow-hidden rounded-3xl border border-border bg-card shadow-warm-sm transition-shadow duration-500 hover:shadow-warm md:grid-cols-2 ${
-                  i % 2 === 1 ? "md:[&>div:first-child]:order-2" : ""
-                }`}
-              >
-                <div className="relative aspect-[16/11] overflow-hidden md:aspect-auto md:h-full md:min-h-[22rem]">
+            <SwipeItem key={c.id}>
+              <article className="group flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-card shadow-warm-sm transition-all duration-500 hover:-translate-y-1.5 hover:shadow-warm">
+                <div className="relative aspect-[4/3] overflow-hidden">
                   <Image
                     src={c.image || "/placeholder.svg"}
                     alt={c.alt}
                     fill
+                    sizes="(min-width: 1024px) 33vw, 80vw"
                     className="object-cover transition-transform duration-700 group-hover:scale-105"
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-charcoal/75 via-charcoal/10 to-transparent" />
+                  <span className="absolute left-4 top-4 rounded-full bg-black/30 px-3 py-1 text-[0.62rem] uppercase tracking-[0.2em] text-ivory/90 backdrop-blur-sm">
+                    {`No. ${String(i + 1).padStart(2, "0")}`}
+                  </span>
+                  <div className="absolute inset-x-4 bottom-4">
+                    <h3 className="font-serif text-2xl leading-tight text-ivory">{c.name}</h3>
+                    <p className="mt-0.5 font-serif text-sm italic text-gold">{c.tagline}</p>
+                  </div>
                 </div>
-                <div className="p-8 sm:p-10">
-                  <span className="eyebrow">{`Collection ${String(i + 1).padStart(2, "0")}`}</span>
-                  <h3 className="mt-3 font-serif text-2xl text-foreground sm:text-3xl">{c.name}</h3>
-                  <p className="mt-2 font-serif text-lg italic text-primary">{c.tagline}</p>
-                  <p className="mt-4 leading-relaxed text-muted-foreground">{c.intro}</p>
-                  <div className="mt-6 flex flex-wrap gap-2">
+                <div className="flex flex-1 flex-col p-6">
+                  <p className="text-sm leading-relaxed text-muted-foreground">{c.intro}</p>
+                  <div className="mt-4 flex flex-wrap gap-2">
                     {c.subHampers.map((s) => (
                       <span
                         key={s.id}
@@ -54,18 +61,18 @@ export function CollectionsShowcase() {
                   </div>
                   <a
                     href="#builder"
-                    className="mt-7 inline-flex items-center gap-2 text-sm font-medium text-primary transition-colors hover:text-maroon"
+                    className="mt-auto inline-flex items-center gap-2 pt-6 text-sm font-medium text-primary transition-colors hover:text-maroon"
                   >
                     Build from this collection
                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </a>
                 </div>
               </article>
-            </StaggerItem>
+            </SwipeItem>
           ))}
-        </StaggerGroup>
+        </SwipeRow>
 
-        <div className="mt-16">
+        <div className="mt-14">
           <SealDivider />
         </div>
       </div>

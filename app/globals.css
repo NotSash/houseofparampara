@@ -51,7 +51,7 @@
   /* Raw brand colors */
   --ivory: #ffffff;
   --beige: #fdfbf7;
-  --gold: #c9a86a;
+  --gold: #b08641;
   --gold-soft: #dfd3c3;
   --brown: #8c7b6e;
   --maroon: #5c2c20;
@@ -66,18 +66,54 @@
   --popover-foreground: #2b231f;
   --primary: #5c2c20;
   --primary-foreground: #fdfbf7;
-  --secondary: #dfd3c3;
+  --secondary: #f1e7d8;
   --secondary-foreground: #5c2c20;
   --muted: #f3ece1;
-  --muted-foreground: #8c7b6e;
-  --accent: #c9a86a;
-  --accent-foreground: #2b231f;
+  --muted-foreground: #857467;
+  --accent: #b08641;
+  --accent-foreground: #fdfbf7;
   --destructive: #8c3a2a;
   --border: #e7ddcd;
   --input: #e7ddcd;
-  --ring: #c9a86a;
+  --ring: #b08641;
 
   --radius: 1rem;
+}
+
+/* ---------------------------------------------------------------- */
+/* Premium dark theme — warm espresso, candlelit gold, deep terracotta */
+/* ---------------------------------------------------------------- */
+.dark {
+  color-scheme: dark;
+
+  /* Raw brand colors (tuned for dark surfaces) */
+  --ivory: #f0e6d6; /* warm ivory text */
+  --beige: #1b1410;
+  --gold: #e2b873; /* candlelit gold accent */
+  --gold-soft: #6f5c43;
+  --brown: #b6a08c;
+  --maroon: #e09a7c; /* lightened maroon for text on dark */
+  --charcoal: #0c0907;
+
+  /* Semantic mapping */
+  --background: #15100d; /* deep warm espresso, never pure black */
+  --foreground: #f0e6d6;
+  --card: #211913;
+  --card-foreground: #f0e6d6;
+  --popover: #1d1610;
+  --popover-foreground: #f0e6d6;
+  --primary: #b9543a; /* warm terracotta-brick, glows on dark */
+  --primary-foreground: #fbf1e4;
+  --secondary: #2a201a;
+  --secondary-foreground: #ecd9bd;
+  --muted: #241b15;
+  --muted-foreground: #b09c88;
+  --accent: #e2b873;
+  --accent-foreground: #1a120c;
+  --destructive: #d76a4f;
+  --border: #392a20;
+  --input: #2f221a;
+  --ring: #e2b873;
 }
 
 @layer base {
@@ -91,6 +127,14 @@
   html {
     @apply font-sans;
     scroll-behavior: smooth;
+  }
+  /* Smooth, premium transition when switching themes */
+  body,
+  .theme-tint {
+    transition:
+      background-color 0.5s ease,
+      border-color 0.5s ease,
+      color 0.5s ease;
   }
   h1,
   h2,
@@ -118,11 +162,8 @@
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   z-index: 0;
 }
-
-/* Soft woven fabric texture for CTA / footer bands */
-.fabric-weave {
-  background-color: var(--maroon);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill='%23c9a86a' fill-opacity='0.06'%3E%3Cpath d='M0 0h20v20H0zM20 20h20v20H20z'/%3E%3C/g%3E%3C/svg%3E");
+.dark .paper-grain::before {
+  opacity: 0.06;
 }
 
 /* Gold foil divider flourish line */
@@ -144,12 +185,15 @@
 .shadow-warm-sm {
   box-shadow: 0 10px 30px -16px rgba(92, 44, 32, 0.22);
 }
-
-/* Soft neumorphic control */
-.neu-soft {
+.dark .shadow-warm {
   box-shadow:
-    6px 6px 14px rgba(140, 123, 110, 0.18),
-    -6px -6px 14px rgba(255, 255, 255, 0.85);
+    0 24px 60px -24px rgba(0, 0, 0, 0.7),
+    0 0 0 1px rgba(226, 184, 115, 0.06);
+}
+.dark .shadow-warm-sm {
+  box-shadow:
+    0 14px 36px -20px rgba(0, 0, 0, 0.65),
+    0 0 0 1px rgba(226, 184, 115, 0.05);
 }
 
 /* Gold shimmer sweep on hover for primary CTA */
@@ -167,7 +211,7 @@
   background: linear-gradient(
     100deg,
     transparent,
-    rgba(201, 168, 106, 0.45),
+    rgba(226, 184, 115, 0.5),
     transparent
   );
   transform: skewX(-18deg);
@@ -175,19 +219,6 @@
 }
 .shimmer-sweep:hover::after {
   left: 130%;
-}
-
-@keyframes gentle-pulse {
-  0%,
-  100% {
-    box-shadow: 0 0 0 0 rgba(92, 44, 32, 0.45);
-  }
-  70% {
-    box-shadow: 0 0 0 14px rgba(92, 44, 32, 0);
-  }
-}
-.animate-gentle-pulse {
-  animation: gentle-pulse 2.6s ease-out infinite;
 }
 
 @keyframes scroll-nudge {
@@ -212,6 +243,15 @@
   font-size: 0.72rem;
   font-weight: 600;
   color: var(--gold);
+}
+
+/* Hide scrollbars on swipeable carousels while keeping scroll */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
 
 @media (prefers-reduced-motion: reduce) {

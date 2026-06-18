@@ -1,6 +1,6 @@
 import Image from "next/image"
 import { collections } from "@/lib/data"
-import { waLink, GENERIC_WA_MESSAGE, INSTAGRAM_URL, FACEBOOK_URL } from "@/lib/constants"
+import { waLink, GENERIC_WA_MESSAGE, INSTAGRAM_URL, INSTAGRAM_HANDLE } from "@/lib/constants"
 import { WhatsAppIcon } from "@/components/icons"
 
 export function SiteFooter() {
@@ -35,7 +35,9 @@ export function SiteFooter() {
               </a>
               <a
                 href={INSTAGRAM_URL}
-                aria-label="Instagram"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram — parampara_giftings"
                 className="flex h-10 w-10 items-center justify-center rounded-full border border-border text-muted-foreground transition-colors hover:border-primary/50 hover:text-primary"
               >
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4 w-4" aria-hidden="true">
@@ -45,13 +47,12 @@ export function SiteFooter() {
                 </svg>
               </a>
               <a
-                href={FACEBOOK_URL}
-                aria-label="Facebook"
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-border text-muted-foreground transition-colors hover:border-primary/50 hover:text-primary"
+                href={INSTAGRAM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-muted-foreground transition-colors hover:text-primary"
               >
-                <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4" aria-hidden="true">
-                  <path d="M14 9h3V6h-3c-2.2 0-4 1.8-4 4v2H7v3h3v7h3v-7h3l1-3h-4v-2c0-.6.4-1 1-1z" />
-                </svg>
+                {INSTAGRAM_HANDLE}
               </a>
             </div>
           </div>

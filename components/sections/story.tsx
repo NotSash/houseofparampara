@@ -4,7 +4,7 @@ import { SectionEyebrow, WaxSeal } from "@/components/section-eyebrow"
 
 export function Story() {
   return (
-    <section id="story" className="paper-grain relative overflow-hidden py-24 sm:py-32">
+    <section id="story" className="paper-grain relative overflow-hidden py-16 sm:py-28">
       <div className="mx-auto grid max-w-6xl items-center gap-12 px-5 sm:px-8 lg:grid-cols-2 lg:gap-16">
         <Reveal className="relative">
           <div className="relative aspect-[4/5] overflow-hidden rounded-3xl shadow-warm">

@@ -7,14 +7,14 @@ import { AnimatePresence, motion } from 'motion/react'
 import { cn } from '@/lib/utils'
 import { waLink, GENERIC_WA_MESSAGE } from '@/lib/constants'
 import { WhatsAppIcon } from '@/components/icons'
+import { ThemeToggle } from '@/components/theme-toggle'
 
 const NAV_LINKS = [
   { label: 'Our Story', href: '#story' },
   { label: 'Why Parampara', href: '#why' },
   { label: 'Collections', href: '#collections' },
   { label: 'Build Your Hamper', href: '#builder' },
-  { label: 'The Unboxing Ritual', href: '#unboxing' },
-  { label: 'Pricing', href: '#pricing' },
+  { label: 'The Unboxing', href: '#unboxing' },
   { label: 'Contact', href: '#contact' },
 ]
 
@@ -93,7 +93,8 @@ export function SiteNav() {
           ))}
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5">
+          <ThemeToggle variant={scrolled ? 'solid' : 'over-hero'} />
           <a
             href={waLink(GENERIC_WA_MESSAGE)}
             target="_blank"
@@ -126,20 +127,23 @@ export function SiteNav() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="paper-grain fixed inset-0 z-50 flex flex-col bg-background lg:hidden"
+            className="fixed inset-0 z-50 flex flex-col bg-background lg:hidden"
           >
             <div className="flex h-20 items-center justify-between px-5">
               <span className="font-serif text-lg text-foreground">
                 House of Parampara
               </span>
-              <button
-                type="button"
-                onClick={() => setOpen(false)}
-                aria-label="Close menu"
-                className="inline-flex h-11 w-11 items-center justify-center rounded-full text-foreground hover:bg-muted"
-              >
-                <X className="h-6 w-6" />
-              </button>
+              <div className="flex items-center gap-2">
+                <ThemeToggle variant="solid" />
+                <button
+                  type="button"
+                  onClick={() => setOpen(false)}
+                  aria-label="Close menu"
+                  className="inline-flex h-11 w-11 items-center justify-center rounded-full text-foreground hover:bg-muted"
+                >
+                  <X className="h-6 w-6" />
+                </button>
+              </div>
             </div>
             <div className="flex flex-1 flex-col justify-center gap-1 px-8">
               {NAV_LINKS.map((link, i) => (
