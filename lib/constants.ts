@@ -12,3 +12,8 @@ export function waLink(message: string) {
 
 export const GENERIC_WA_MESSAGE =
   "Hi! I'd love to know more about House of Parampara."
+
+/** Format a number as Indian Rupees, e.g. 1200 -> "₹1,200". */
+export function formatPrice(amount: number) {
+  return `${CURRENCY_SYMBOL}${amount.toLocaleString('en-IN')}`
+}
