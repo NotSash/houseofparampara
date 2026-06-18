@@ -29,7 +29,14 @@ export function ThemeToggle({
     <button
       type="button"
       onClick={toggle}
-      aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
+      aria-label={
+        !mounted
+          ? 'Toggle theme'
+          : isDark
+            ? 'Switch to light theme'
+            : 'Switch to dark theme'
+      }
+      suppressHydrationWarning
       className={cn(
         'relative inline-flex h-11 w-11 items-center justify-center rounded-full border transition-colors',
         variant === 'solid'
