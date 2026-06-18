@@ -36,8 +36,9 @@ export function Hero() {
       </motion.div>
 
       {/* Rich, cinematic dark overlays — keep the imagery visible while text stays legible */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-tr from-[rgba(15,10,8,0.94)] via-[rgba(15,10,8,0.6)] to-[rgba(15,10,8,0.2)]" />
-      <div className="absolute inset-0 -z-10 bg-gradient-to-t from-background via-background/10 to-transparent" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-tr from-[rgba(15,10,8,0.92)] via-[rgba(15,10,8,0.55)] to-[rgba(15,10,8,0.15)]" />
+      {/* Gentle blend into the next section — short bottom strip only, so it never washes out the content */}
+      <div className="absolute inset-x-0 bottom-0 -z-10 h-24 bg-gradient-to-t from-background to-transparent sm:h-32" />
       {/* Soft candlelit glow accent */}
       <div className="pointer-events-none absolute -right-24 top-1/3 -z-10 h-96 w-96 rounded-full bg-[radial-gradient(circle,rgba(226,184,115,0.22),transparent_70%)] blur-2xl" />
 

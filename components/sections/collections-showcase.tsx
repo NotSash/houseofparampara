@@ -30,7 +30,7 @@ export function CollectionsShowcase() {
           {collections.map((c, i) => (
             <SwipeItem key={c.id}>
               <article className="group flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-card shadow-warm-sm transition-all duration-500 hover:-translate-y-1.5 hover:shadow-warm">
-                <div className="relative aspect-[4/3] overflow-hidden">
+                <div className="relative aspect-[5/4] overflow-hidden sm:aspect-[4/3]">
                   <Image
                     src={c.image || "/placeholder.svg"}
                     alt={c.alt}
@@ -38,17 +38,15 @@ export function CollectionsShowcase() {
                     sizes="(min-width: 1024px) 33vw, 80vw"
                     className="object-cover transition-transform duration-700 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-charcoal/75 via-charcoal/10 to-transparent" />
-                  <span className="absolute left-4 top-4 rounded-full bg-black/30 px-3 py-1 text-[0.62rem] uppercase tracking-[0.2em] text-ivory/90 backdrop-blur-sm">
+                  <div className="absolute inset-0 bg-gradient-to-t from-charcoal/45 to-transparent" />
+                  <span className="absolute left-3 top-3 rounded-full bg-black/35 px-2.5 py-1 text-[0.6rem] uppercase tracking-[0.18em] text-ivory/90 backdrop-blur-sm">
                     {`No. ${String(i + 1).padStart(2, "0")}`}
                   </span>
-                  <div className="absolute inset-x-4 bottom-4">
-                    <h3 className="font-serif text-2xl leading-tight text-ivory">{c.name}</h3>
-                    <p className="mt-0.5 font-serif text-sm italic text-gold">{c.tagline}</p>
-                  </div>
                 </div>
-                <div className="flex flex-1 flex-col p-6">
-                  <p className="text-sm leading-relaxed text-muted-foreground">{c.intro}</p>
+                <div className="flex flex-1 flex-col p-5 sm:p-6">
+                  <h3 className="font-serif text-xl leading-tight text-foreground sm:text-2xl">{c.name}</h3>
+                  <p className="mt-1 font-serif text-sm italic text-accent">{c.tagline}</p>
+                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{c.intro}</p>
                   <div className="mt-4 flex flex-wrap gap-2">
                     {c.subHampers.map((s) => (
                       <span

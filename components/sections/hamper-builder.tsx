@@ -111,9 +111,9 @@ export function HamperBuilder() {
           </div>
         </Reveal>
 
-        <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_22rem]">
+        <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1fr)_22rem]">
           {/* Left: sub-hamper picker + items */}
-          <div>
+          <div className="min-w-0">
             {activeCollection.subHampers.length > 1 && (
               <div className="mb-6 flex flex-wrap gap-2">
                 {activeCollection.subHampers.map((s) => {
@@ -148,11 +148,11 @@ export function HamperBuilder() {
                 <p className="mb-5 max-w-xl text-pretty leading-relaxed text-muted-foreground">
                   {activeSub.intro}
                 </p>
-                <ul className="grid gap-3 sm:grid-cols-2">
+                <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                   {activeSub.items.map((item) => {
                     const isOn = selected.has(item.id)
                     return (
-                      <li key={item.id}>
+                      <li key={item.id} className="min-w-0">
                         <button
                           type="button"
                           onClick={() => toggleItem(activeSub, item.id)}
@@ -233,7 +233,7 @@ export function HamperBuilder() {
           </div>
 
           {/* Right: sticky summary */}
-          <div className="lg:sticky lg:top-24 lg:self-start">
+          <div className="min-w-0 lg:sticky lg:top-24 lg:self-start">
             <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
               <h3 className="font-serif text-2xl">{activeSub.name}</h3>
               <p className="mt-1 text-sm text-muted-foreground">

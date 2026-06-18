@@ -6,10 +6,13 @@ import { waLink, GENERIC_WA_MESSAGE } from "@/lib/constants"
 
 export function ClosingCta() {
   return (
-    <section id="contact" className="relative scroll-mt-24 overflow-hidden bg-primary py-20 text-primary-foreground md:py-32">
-      <div className="pointer-events-none absolute inset-0 opacity-[0.08]">
+    <section id="contact" className="relative scroll-mt-24 overflow-hidden bg-[#5c2c20] py-20 text-[#fbf1e4] md:py-32 dark:bg-[#190f0b]">
+      <div className="pointer-events-none absolute inset-0 opacity-[0.08] dark:opacity-[0.14]">
         <Image src="/images/hero.png" alt="" fill className="object-cover" />
       </div>
+      {/* Warm terracotta glow — gives the dark contact section depth instead of flat brightness */}
+      <div className="pointer-events-none absolute inset-0 opacity-0 dark:opacity-100 dark:bg-[radial-gradient(75%_60%_at_50%_-5%,rgba(185,84,58,0.4),transparent_70%)]" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#e2b873]/40 to-transparent" />
       <div className="relative mx-auto max-w-3xl px-5 text-center">
         <Reveal>
           <p className="font-serif text-sm uppercase tracking-[0.3em] text-primary-foreground/70">
@@ -27,7 +30,7 @@ export function ClosingCta() {
           <Magnetic>
             <a
               href="#builder"
-              className="inline-flex items-center justify-center rounded-full bg-card px-8 py-4 text-sm font-medium text-foreground transition-transform hover:scale-[1.03]"
+              className="inline-flex items-center justify-center rounded-full bg-[#fbf1e4] px-8 py-4 text-sm font-medium text-[#2b231f] shadow-lg transition-transform hover:scale-[1.03]"
             >
               Build your hamper
             </a>
