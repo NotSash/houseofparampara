@@ -1,0 +1,71 @@
+# pnpm settings.
+#
+# This is NOT a monorepo definition. There is no `packages:` list. The file
+# exists only because pnpm 10 stopped reading the `pnpm` field in package.json
+# and moved these settings here.
+#
+# ---------------------------------------------------------------------------
+# WHY THIS FILE EXISTS
+# ---------------------------------------------------------------------------
+#
+# pnpm will not run a dependency's install script unless told to, because an
+# install script executes arbitrary code on the installing machine. Good
+# default.
+#
+# In pnpm 11 `strictDepBuilds` defaults to TRUE, which turns that from a
+# warning into a hard failure: ERR_PNPM_IGNORED_BUILDS. Every command runs a
+# dependency check first, so `pnpm build`, `pnpm dev` and even a bare
+# `pnpm run` all abort before doing anything, reporting a failure in `install`
+# even though you never typed install.
+#
+# So both packages have to be classified explicitly.
+#
+# ---------------------------------------------------------------------------
+# WHY BOTH SPELLINGS ARE PRESENT
+# ---------------------------------------------------------------------------
+#
+# pnpm 11 REMOVED `onlyBuiltDependencies`, `ignoredBuiltDependencies`,
+# `neverBuiltDependencies`, `onlyBuiltDependenciesFile` and `ignoreDepScripts`,
+# replacing all of them with the `allowBuilds` map.
+#
+# pnpm 10 does not understand `allowBuilds`.
+#
+# Both are listed because pnpm ignores keys it does not recognise, so this one
+# file works on either major version. Verified failing the other way first: a
+# file containing only the pnpm 10 keys still produced ERR_PNPM_IGNORED_BUILDS
+# on pnpm 11, because those keys no longer exist there.
+#
+# When everyone is on pnpm 11, delete the two legacy keys at the bottom.
+
+# --- pnpm 11 and newer -----------------------------------------------------
+allowBuilds:
+  # sharp is the image resizing library Next.js uses to produce AVIF and WebP.
+  # It arrives with Next, it is not a direct dependency of this project.
+  #
+  # Measured with its build script SKIPPED, requesting
+  # /images/pillars/timeless-bonds.jpg through the Next image endpoint:
+  # status 200, content-type image/avif, 46,327 bytes from a 124,130 byte
+  # original. So modern sharp works from prebuilt binaries and does not
+  # strictly need this.
+  #
+  # Allowed anyway, because sharp is the one dependency here whose native
+  # build genuinely matters, and refusing it means depending on a prebuilt
+  # binary existing for whatever platform someone installs on.
+  sharp: true
+
+  # msw is Mock Service Worker, a test-time HTTP mocking tool. It arrives as a
+  # transitive dependency and is imported nowhere in this project:
+  #
+  #   grep -rn "msw" app components lib scripts   ->   no matches
+  #
+  # Its install step writes a service worker file into a public directory,
+  # which this site has no use for. Denied deliberately rather than left
+  # unreviewed, which is what clears the error.
+  msw: false
+
+# --- pnpm 10, kept for compatibility ---------------------------------------
+# Ignored by pnpm 11. Remove once nobody is on pnpm 10.
+onlyBuiltDependencies:
+  - sharp
+ignoredBuiltDependencies:
+  - msw

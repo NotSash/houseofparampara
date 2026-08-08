@@ -1,0 +1,326 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-heading: var(--font-playfair), 'Playfair Display', serif;
+  --font-sans: var(--font-lato), 'Lato', ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-playfair), 'Playfair Display', serif;
+
+  /* Brand palette tokens */
+  --color-ivory: var(--ivory);
+  --color-beige: var(--beige);
+  --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
+  --color-brown: var(--brown);
+  --color-maroon: var(--maroon);
+  --color-charcoal: var(--charcoal);
+
+  /* Semantic tokens */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-ink: var(--primary-ink);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 6px);
+  --radius-2xl: calc(var(--radius) + 12px);
+  --radius-3xl: calc(var(--radius) + 20px);
+
+  /*
+     Motion vocabulary. Mirrors lib/motion.ts, which holds the same numbers for
+     Framer. Two sources is not ideal, but Framer needs real numbers at keyframe
+     time and cannot read a custom property, so the alternative is worse. If a
+     value changes here it must change there.
+
+     The governing rule: reactive motion is fast, revealed content can be slow.
+     Anything answering a pointer lands inside 300ms, because past that the
+     interface feels like it is thinking rather than responding.
+  */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-exit: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --dur-fast: 160ms;
+  --dur-base: 240ms;
+  --dur-slow: 400ms;
+  --dur-reveal: 700ms;
+  --dur-hero: 900ms;
+}
+
+:root {
+  color-scheme: light;
+
+  /* Raw brand colors */
+  --ivory: #ffffff;
+  --beige: #fdfbf7;
+  --gold: #b08641;
+  --gold-soft: #dfd3c3;
+  --brown: #8c7b6e;
+  --maroon: #5c2c20;
+  --charcoal: #2b231f;
+
+  /* Semantic mapping */
+  --background: #fdfbf7;
+  --foreground: #2b231f;
+  --card: #ffffff;
+  --card-foreground: #2b231f;
+  --popover: #ffffff;
+  --popover-foreground: #2b231f;
+  --primary: #5c2c20;
+  --primary-foreground: #fdfbf7;
+  /* Text-weight version of the brand colour. Measured 11.4:1 on white. */
+  --primary-ink: #5c2c20;
+  --secondary: #f1e7d8;
+  --secondary-foreground: #5c2c20;
+  --muted: #f3ece1;
+  --muted-foreground: #6b5d52; /* measured 6.3:1 on card, 5.2:1 on secondary */
+  --accent: #8a6522; /* darkened from #b08641, which measured 3.3:1 as text */
+  --accent-foreground: #fdfbf7;
+  --destructive: #8c3a2a;
+  --border: #e7ddcd;
+  --input: #e7ddcd;
+  --ring: #8a6522; /* measured 5.1:1 against the page, well over the 3:1 minimum */
+  --focus-inner: #fdfbf7;
+
+  --radius: 1rem;
+}
+
+/* ---------------------------------------------------------------- */
+/* Premium dark theme — warm espresso, candlelit gold, deep terracotta */
+/* ---------------------------------------------------------------- */
+.dark {
+  color-scheme: dark;
+
+  /* Raw brand colors (tuned for dark surfaces) */
+  --ivory: #f0e6d6; /* warm ivory text */
+  --beige: #1b1410;
+  --gold: #e2b873; /* candlelit gold accent */
+  --gold-soft: #6f5c43;
+  --brown: #b6a08c;
+  --maroon: #e09a7c; /* lightened maroon for text on dark */
+  --charcoal: #0c0907;
+
+  /* Semantic mapping */
+  --background: #15100d; /* deep warm espresso, never pure black */
+  --foreground: #f0e6d6;
+  --card: #211913;
+  --card-foreground: #f0e6d6;
+  --popover: #1d1610;
+  --popover-foreground: #f0e6d6;
+  --primary: #a8462c; /* fill colour: 5.3:1 behind --primary-foreground */
+  --primary-foreground: #fbf1e4;
+  --primary-ink: #e08768; /* text colour: 7.0:1 on background, 6.5:1 on card */
+  --secondary: #2a201a;
+  --secondary-foreground: #ecd9bd;
+  --muted: #241b15;
+  --muted-foreground: #b09c88;
+  --accent: #e2b873;
+  --accent-foreground: #1a120c;
+  --destructive: #d76a4f;
+  --border: #392a20;
+  --input: #2f221a;
+  --ring: #e2b873;
+  --focus-inner: #15100d;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: 'kern' 1, 'liga' 1;
+  }
+  html {
+    @apply font-sans;
+    scroll-behavior: smooth;
+  }
+  /* Smooth, premium transition when switching themes */
+  body,
+  .theme-tint {
+    transition:
+      background-color var(--dur-slow) var(--ease),
+      border-color var(--dur-slow) var(--ease),
+      color var(--dur-slow) var(--ease);
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-serif;
+  }
+  /*
+     Prose line-height, set once.
+     
+     This was 1.75, which is comfortable for a long article but loose for the
+     short two and three line paragraphs this site actually uses. It also
+     fought every `leading-*` utility, which is why identically sized text was
+     measuring at 1.50 in one place and 1.63 in another.
+
+     1.6 is the compromise: still generous enough for the unhurried feel the
+     brand wants, tight enough that a three line paragraph reads as one block
+     rather than three separate lines.
+  */
+  p {
+    line-height: 1.6;
+  }
+}
+
+/* ---- Brand utilities ---- */
+
+/* Subtle handmade khadi paper grain overlay */
+.paper-grain {
+  position: relative;
+}
+.paper-grain::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  z-index: 0;
+}
+.dark .paper-grain::before {
+  opacity: 0.06;
+}
+
+/* Gold foil divider flourish line */
+.flourish-line {
+  height: 1px;
+  width: 3rem;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--gold),
+    transparent
+  );
+}
+
+/* Warm, never-black shadow */
+.shadow-warm {
+  box-shadow: 0 18px 50px -20px rgba(92, 44, 32, 0.28);
+}
+.shadow-warm-sm {
+  box-shadow: 0 10px 30px -16px rgba(92, 44, 32, 0.22);
+}
+.dark .shadow-warm {
+  box-shadow:
+    0 24px 60px -24px rgba(0, 0, 0, 0.7),
+    0 0 0 1px rgba(226, 184, 115, 0.06);
+}
+.dark .shadow-warm-sm {
+  box-shadow:
+    0 14px 36px -20px rgba(0, 0, 0, 0.65),
+    0 0 0 1px rgba(226, 184, 115, 0.05);
+}
+
+/* Gold shimmer sweep on hover for primary CTA */
+.shimmer-sweep {
+  position: relative;
+  overflow: hidden;
+}
+.shimmer-sweep::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    100deg,
+    transparent,
+    rgba(226, 184, 115, 0.5),
+    transparent
+  );
+  transform: skewX(-18deg);
+  transition: left 0.7s ease;
+}
+.shimmer-sweep:hover::after {
+  left: 130%;
+}
+
+@keyframes scroll-nudge {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateY(8px);
+    opacity: 1;
+  }
+}
+.animate-scroll-nudge {
+  animation: scroll-nudge 2s ease-in-out infinite;
+}
+
+.eyebrow {
+  font-family: var(--font-sans);
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+/* Hide scrollbars on swipeable carousels while keeping scroll */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---------------------------------------------------------------- */
+/* Focus rings                                                       */
+/* ---------------------------------------------------------------- */
+/* Deliberately NOT inside @layer base. Tailwind's utility layer sets
+   outline-color to currentColor, which beat the base layer and rendered a
+   white ring on a white nav. Measured before: rgba(255,255,255,0.85).
+   A focus ring is an accessibility affordance, so it is drawn on the first
+   frame and never faded in. Outline does not affect layout, so 3px is safe. */
+:focus-visible {
+  outline: 3px solid var(--ring);
+  outline-offset: 2px;
+  /* Do NOT set border-radius here. It overwrites the element's own radius and
+     draws a square ring around a pill button. Outline already follows the
+     element shape. Caught by screenshot, not by any numeric check. */
+  transition: none;
+  /* A second keyline in the opposite tone, so the ring stays visible whether
+     it lands on a pale page or on a dark filled button. Measured: the gold
+     ring alone was 2.16:1 against the terracotta CTA fill. */
+  box-shadow:
+    0 0 0 2px var(--focus-inner),
+    0 0 0 6px var(--ring);
+}
