@@ -12,7 +12,7 @@ export function CollectionsShowcase() {
         <SectionEyebrow>The Collections</SectionEyebrow>
         <Reveal delay={0.05}>
           <h2 className="mx-auto mt-5 max-w-2xl text-balance text-center font-serif text-3xl leading-tight text-foreground sm:text-4xl lg:text-5xl">
-            Five worlds of heritage gifting
+            Heritage gifting collections
           </h2>
         </Reveal>
         <Reveal delay={0.1}>

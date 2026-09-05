@@ -5,8 +5,10 @@ import Image from "next/image"
 import { AnimatePresence, motion } from "motion/react"
 import { Check, Minus, Plus } from "lucide-react"
 import {
+  optionPrice,
   publishedCollections,
   type Collection,
+  type HamperItem,
   type SubHamper,
 } from "@/lib/data"
 import { formatPrice, waLink } from "@/lib/constants"
@@ -49,6 +51,24 @@ export function HamperBuilder() {
    * impossible state of "selected, quantity zero". One map cannot express that.
    */
   const [quantities, setQuantities] = useState<Record<string, number>>({})
+
+  /*
+   * Chosen size per item id, for items that carry `options`.
+   *
+   * One card covers every size of a design, the way a clothing card covers
+   * S through XL. The dropdown picks the size, the quantity stepper picks
+   * how many. Missing entries fall back to the first option.
+   */
+  const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>({})
+
+  function optionOf(item: HamperItem): string | undefined {
+    if (!item.options || item.options.length === 0) return undefined
+    return selectedOptions[item.id] ?? item.options[0].label
+  }
+
+  function priceOf(item: HamperItem): number {
+    return optionPrice(item, optionOf(item))
+  }
 
   /** A free handwritten note. Confirmed by the owner as free of charge. */
   const [wantsNote, setWantsNote] = useState(false)
@@ -113,22 +133,26 @@ export function HamperBuilder() {
   const { total, totalUnits, chosen } = useMemo(() => {
     const chosen = activeSub.items
       .filter((i) => isSelected(i.id))
-      .map((i) => ({ item: i, qty: quantities[i.id] ?? 1 }))
+      .map((i) => {
+        const option = optionOf(i)
+        const unit = optionPrice(i, option)
+        return { item: i, qty: quantities[i.id] ?? 1, option, unit }
+      })
     return {
       chosen,
-      total: chosen.reduce((sum, { item, qty }) => sum + item.price * qty, 0),
+      total: chosen.reduce((sum, { unit, qty }) => sum + unit * qty, 0),
       totalUnits: chosen.reduce((sum, { qty }) => sum + qty, 0),
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeSub, quantities])
+  }, [activeSub, quantities, selectedOptions])
 
   const checkoutMessage = useMemo(() => {
     const lines = [
       "Hi House of Parampara! I would like to order:",
       "",
       ...chosen.map(
-        ({ item, qty }) =>
-          `${qty} x ${item.name} at ${formatPrice(item.price)} each = ${formatPrice(item.price * qty)}`,
+        ({ item, qty, option, unit }) =>
+          `${qty} x ${item.name}${option ? ` (${option})` : ""} at ${formatPrice(unit)} each = ${formatPrice(unit * qty)}`,
       ),
       "",
       `Total: ${formatPrice(total)} for ${totalUnits} ${totalUnits === 1 ? "piece" : "pieces"}`,
@@ -290,7 +314,7 @@ export function HamperBuilder() {
                                   {item.name}
                                 </span>
                                 <span className="shrink-0 text-sm font-semibold text-primary-ink">
-                                  {formatPrice(item.price)}
+                                  {formatPrice(priceOf(item))}
                                 </span>
                               </div>
                               <p className="mt-1 line-clamp-2 text-base leading-relaxed text-muted-foreground sm:text-sm">
@@ -309,6 +333,45 @@ export function HamperBuilder() {
                               {isOn ? <Check className="h-3.5 w-3.5" /> : <Plus className="h-3.5 w-3.5" />}
                             </span>
                           </button>
+
+                          {/*
+                           * Size dropdown, only for items that carry options.
+                           *
+                           * Always visible so the size can be picked before
+                           * ticking. Picking a size ticks the item too, the
+                           * way choosing a clothing size implies wanting it.
+                           * `text-base` because iOS zooms fields under 16px,
+                           * `min-h-11` keeps the 44px tap target.
+                           */}
+                          {item.options && item.options.length > 0 && (
+                            <div className="flex items-center justify-between gap-3 px-3 pb-1">
+                              <label
+                                htmlFor={`size-${item.id}`}
+                                className="text-sm text-muted-foreground"
+                              >
+                                Size
+                              </label>
+                              <select
+                                id={`size-${item.id}`}
+                                value={optionOf(item)}
+                                onChange={(e) => {
+                                  const label = e.target.value
+                                  setSelectedOptions((prev) => ({ ...prev, [item.id]: label }))
+                                  setQuantities((prev) =>
+                                    prev[item.id] !== undefined ? prev : { ...prev, [item.id]: 1 },
+                                  )
+                                }}
+                                aria-label={`Size for ${item.name}`}
+                                className="min-h-11 rounded-lg border border-border bg-background px-3 text-base text-foreground"
+                              >
+                                {item.options.map((o) => (
+                                  <option key={o.label} value={o.label}>
+                                    {o.label} at {formatPrice(o.price)}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
+                          )}
 
                           {/*
                            * The quantity stepper appears only once the item is
@@ -468,7 +531,7 @@ export function HamperBuilder() {
 
               <ul className="space-y-2.5">
                 <AnimatePresence initial={false}>
-                  {chosen.map(({ item, qty }) => (
+                  {chosen.map(({ item, qty, option, unit }) => (
                     <motion.li
                       key={item.id}
                       initial={{ opacity: 0, height: 0 }}
@@ -481,9 +544,10 @@ export function HamperBuilder() {
                         <span className="tabular-nums text-foreground">{qty}</span>
                         {" x "}
                         {item.name}
+                        {option ? ` (${option})` : ""}
                       </span>
                       <span className="shrink-0 tabular-nums text-foreground">
-                        {formatPrice(item.price * qty)}
+                        {formatPrice(unit * qty)}
                       </span>
                     </motion.li>
                   ))}
